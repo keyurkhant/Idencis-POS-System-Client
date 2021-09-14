@@ -6,13 +6,17 @@ import { LoginComponent } from './components/login/login.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
     ForgotPasswordComponent,
-    SidebarComponent
+    SidebarComponent,
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +27,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     LoginComponent,
     ForgotPasswordComponent,
-    SidebarComponent
+    SidebarComponent,
+    NavbarComponent,
+    FooterComponent
   ]
 })
 export class SharedLibModule { }
