@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { SharedLibModule } from 'projects/shared-lib/shared-lib.module';
@@ -13,7 +14,8 @@ import { MyprofileComponent } from './components/myprofile/myprofile.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedLibModule
+    SharedLibModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
