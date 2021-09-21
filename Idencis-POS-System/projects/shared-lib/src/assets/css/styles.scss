@@ -1,0 +1,39 @@
+// Hide spinner arrow from input[type=number]
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.is-invalid{
+    border: 0.01em solid red !important;
+}
+
+.form-error{
+    font-size: 75% !important;
+    color: red !important;
+}
+
+// Ng-Bootstrap Modal Custome style
+.modal-header{
+    background: linear-gradient(87deg, #172b4d 0, #1a174d 100%) !important;
+    padding-bottom: 0.75rem !important;
+    h4{
+        color: white !important;
+    }
+    span{
+        color: white !important;  
+        font-size: 24px !important;       
+        margin-top: -3px !important;
+    }
+}
+
+.modal-body{
+    background-color: #f7fafc !important;
+    border-bottom-left-radius: 0.4375rem !important;
+    border-bottom-right-radius: 0.4375rem !important;
+}

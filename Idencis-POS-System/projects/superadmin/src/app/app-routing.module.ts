@@ -2,20 +2,28 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from 'projects/shared-lib/components/login/login.component';
 import { AuthGuard } from 'projects/shared-lib/guards/auth.guard';
+import { LoggedInGuard } from 'projects/shared-lib/guards/logged-in.guard';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MyprofileComponent } from './components/myprofile/myprofile.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [LoggedInGuard]
   },
   {
     path: 'login',
     redirectTo: ''
   },
   {
-    path: 'admin',
+    path: 'profile',
     component: MyprofileComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
     canActivate: [AuthGuard]
   }
 ];

@@ -6,10 +6,13 @@
         <div class="container-fluid align-items-center">
             <div class="row">
                 <div class="col-lg-7 col-md-10">
-                    <h3 class="display-4 text-white">Hello Keyur</h3>
+                    <h3 class="display-4 text-white">Hello {{userData?.first_name}}</h3>
                     <p class="text-white mt-0 mb-3">This is your profile page.
                         You can manage your personal details here.</p>
-                    <a href="#!" class="btn btn-primary">Edit profile</a>
+                    <button type="button" class="btn btn-default" (click)="changeMode($event)">
+                        {{isEditMode?"Save profile":"Edit profile"}}</button>
+                    <button type="button" class="btn btn-primary" (click)="openChangePassword(changePasswordModal)">Change
+                        password</button>
                 </div>
             </div>
         </div>
@@ -24,39 +27,100 @@
                                 <h3 class="mb-0">My account</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a class="btn btn-sm btn-primary userprofileflag">Super Admin</a>
+                                <a class="btn btn-sm btn-primary userprofileflag">
+                                    {{superAdminFlag ? "Super Admin" : "Admin"}}
+                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form [formGroup]='profileForm' role='form'>
                             <h6 class="heading-small text-muted mb-4">User information</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-email">Email address</label>
-                                            <input type="email" id="input-email"
-                                                class="form-control form-control-alternative"
-                                                placeholder="jesse@example.com">
+                                            <label class="form-control-label" for="username">Username</label>
+                                            <input formControlName="username" type="text" id="username"
+                                                class="form-control form-control-alternative" placeholder="Username"
+                                                [ngClass]="profileForm.controls.username.invalid && (profileForm.controls.username.dirty || profileForm.controls.username.touched) ? 'is-invalid':'is-valid'">
+                                            <span class="form-error"
+                                                *ngIf="(profileForm.controls.username.invalid && (profileForm.controls.username.dirty || profileForm.controls.username.touched)) && profileForm.controls.username.hasError('required')">
+                                                Username is required.
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-name">Full name</label>
-                                            <input type="text" id="input-name"
-                                                class="form-control form-control-alternative" placeholder="Full Name"
-                                                value="Keyur Khant">
+                                            <label class="form-control-label" for="email">Email address</label>
+                                            <input formControlName="email" type="email" id="email"
+                                                class="form-control form-control-alternative" placeholder="Email"
+                                                [ngClass]="profileForm.controls.email.invalid && (profileForm.controls.email.dirty || profileForm.controls.email.touched) ? 'is-invalid':'is-valid'">
+                                            <span class="form-error"
+                                                *ngIf="(profileForm.controls.email.invalid && (profileForm.controls.email.dirty || profileForm.controls.email.touched)) && profileForm.controls.email.hasError('required')">
+                                                Email is required.
+                                            </span>
+                                            <span class="form-error"
+                                                *ngIf="(profileForm.controls.email.invalid && (profileForm.controls.email.dirty || profileForm.controls.email.touched)) && profileForm.controls.email.hasError('emailNotMatch')">
+                                                Valid email is required.
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-email">Mobile number</label>
-                                            <input type="email" id="input-email"
+                                            <label class="form-control-label" for="firstname">First Name</label>
+                                            <input formControlName="firstname" type="text" id="firstname"
+                                                class="form-control form-control-alternative" placeholder="First name"
+                                                [ngClass]="profileForm.controls.firstname.invalid && (profileForm.controls.firstname.dirty || profileForm.controls.firstname.touched) ? 'is-invalid':'is-valid'">
+                                            <span class="form-error"
+                                                *ngIf="(profileForm.controls.firstname.invalid && (profileForm.controls.firstname.dirty || profileForm.controls.firstname.touched)) && profileForm.controls.firstname.hasError('required')">
+                                                First name is required.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="lastname">Last name</label>
+                                            <input formControlName="lastname" type="text" id="lastname"
+                                                class="form-control form-control-alternative" placeholder="Last name"
+                                                [ngClass]="profileForm.controls.lastname.invalid && (profileForm.controls.lastname.dirty || profileForm.controls.lastnametouched) ? 'is-invalid':'is-valid'">
+                                            <span class="form-error"
+                                                *ngIf="(profileForm.controls.lastname.invalid && (profileForm.controls.lastname.dirty || profileForm.controls.lastname.touched)) && profileForm.controls.lastname.hasError('required')">
+                                                Last name is required.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">Phone number</label>
+                                            <input formControlName="phone" type="number" id="input-email"
+                                                class="form-control form-control-alternative" placeholder="Phone number"
+                                                [ngClass]="profileForm.controls.phone.invalid && (profileForm.controls.phone.dirty || profileForm.controls.phone.touched) ? 'is-invalid':'is-valid'">
+                                            <span class="form-error"
+                                                *ngIf="(profileForm.controls.phone.invalid && (profileForm.controls.phone.dirty || profileForm.controls.phone.touched)) && profileForm.controls.phone.hasError('required')">
+                                                Phone number is required.
+                                            </span>
+                                            <span class="form-error"
+                                                *ngIf="(profileForm.controls.phone.invalid && (profileForm.controls.phone.dirty || profileForm.controls.phone.touched)) && profileForm.controls.phone.hasError('PhoneNumberNotMatch')">
+                                                Valid phone number is required.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">Gender</label>
+                                            <select formControlName="gender"
                                                 class="form-control form-control-alternative"
-                                                placeholder="jesse@example.com">
+                                                aria-label="Default select example">
+                                                <option selected>Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -70,19 +134,23 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="">Modification Permission</label>
                                             <div class="custom-control custom-control-alternative custom-checkbox mb-3">
-                                                <input class="custom-control-input" id="customer" type="checkbox">
+                                                <input formControlName="customer" class="custom-control-input"
+                                                    id="customer" type="checkbox">
                                                 <label class="custom-control-label" for="customer">Customer</label>
                                             </div>
                                             <div class="custom-control custom-control-alternative custom-checkbox mb-3">
-                                                <input class="custom-control-input" id="manager" type="checkbox">
+                                                <input formControlName="manager" class="custom-control-input"
+                                                    id="manager" type="checkbox">
                                                 <label class="custom-control-label" for="manager">Manager</label>
                                             </div>
                                             <div class="custom-control custom-control-alternative custom-checkbox mb-3">
-                                                <input class="custom-control-input" id="admin" type="checkbox">
+                                                <input formControlName="admin" class="custom-control-input" id="admin"
+                                                    type="checkbox">
                                                 <label class="custom-control-label" for="admin">Admin</label>
                                             </div>
                                             <div class="custom-control custom-control-alternative custom-checkbox mb-3">
-                                                <input class="custom-control-input" id="superadmin" type="checkbox">
+                                                <input formControlName="superadmin" class="custom-control-input"
+                                                    id="superadmin" type="checkbox">
                                                 <label class="custom-control-label" for="superadmin">Super Admin</label>
                                             </div>
                                         </div>
@@ -90,21 +158,22 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="">Last login date & time</label>
-                                            <h5 class="display-5">12/02/2021 12:25 AM</h5>
+                                            <h5 class="display-5">{{userData?.last_login}}</h5>
                                         </div>
                                     </div>
                                 </div>
                                 <small><i class="pb-3">For permission related changes, contact to your superior
                                         administration user.</i></small>
-                            </div>
-                            <hr class="my-4" />
-                            <!-- Description -->
-                            <h6 class="heading-small text-muted mb-4">Delete Account</h6>
-                            <div class="pl-lg-4">
-                                <p class="h5 pb-3 text-danger">This action will delete your account permanently. You
-                                    can't access you account again.</p>
-                                <a href="#!" class="btn btn-outline-danger">Delete Account</a>
-                            </div>
+                            </div>                            
+                            <ng-container *ngIf="isEditMode && !superAdminFlag">
+                                <hr class="my-4" />
+                                <h6 class="heading-small text-muted mb-4">Delete Account</h6>
+                                <div class="pl-lg-4">
+                                    <p class="h5 pb-3 text-danger">This action will delete your account permanently. You
+                                        can't access your account again.</p>
+                                    <a href="#!" class="btn btn-outline-danger">Delete Account</a>
+                                </div>
+                            </ng-container>
                         </form>
                     </div>
                 </div>
@@ -112,3 +181,7 @@
         </div>
     </div>
 </div>
+
+<ng-template #changePasswordModal let-modal let-c="close" let-d="dismiss">
+    <app-change-password [close]="c" [dismiss]="d" ></app-change-password>
+</ng-template>

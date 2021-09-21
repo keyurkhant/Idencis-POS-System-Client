@@ -26,4 +26,16 @@ export class CustomValidator{
         }
         return null;
     }
+
+    static PhoneNumberValidator(control: AbstractControl): ValidationErrors | null {
+        const data = control.value as string;
+        if(!data){
+            return null;
+        }
+        const phoneNumberRegex = /^[6-9]\d{9}$/g;
+        if(!Number.isInteger(data) || data.length < 10 || !phoneNumberRegex.test(data)){
+            return {PhoneNumberNotMatch: `Phone number must be in proper format.`}
+        }
+        return null;
+    }
 }

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { SharedLibRoutingModule } from './shared-lib-routing.module';
 import { LoginComponent } from './components/login/login.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
@@ -10,6 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 
 @NgModule({
@@ -18,7 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
     ForgotPasswordComponent,
     SidebarComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +35,8 @@ import { HttpClientModule } from '@angular/common/http';
     ForgotPasswordComponent,
     SidebarComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    ChangePasswordComponent
   ]
 })
 export class SharedLibModule { }

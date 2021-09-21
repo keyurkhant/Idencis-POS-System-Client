@@ -38,9 +38,9 @@ export class LoginComponent implements OnInit {
     
     this.authenticationService.userLogin(this.loginForm.value).subscribe({
       next: (data: any) => {
-        const tokenData = data;
+        let tokenData = data;
         this.authenticationService.getUserDataByToken(tokenData.access).subscribe((result)=>{
-          const userData = result.data[0];
+          let userData = result.data[0];
           userData['token'] = tokenData.access;          
           this.authenticationService.setLocalStorage(userData);
           this.authenticationService.updateUserDataLocally();          

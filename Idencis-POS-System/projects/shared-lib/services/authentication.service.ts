@@ -18,7 +18,7 @@ export class AuthenticationService {
   }
 
   updateUserDataLocally(){
-    let userData = JSON.parse(this.localStorage.getLocalStorage('currentUser'));
+    let userData = JSON.parse(this.localStorage.getLocalStorage(`${GlobalConfiguration.localStorage.currentUser}`));
     if(userData != null){
       this.currentUserSubject.next(userData);
     }
@@ -47,13 +47,13 @@ export class AuthenticationService {
       last_login: user.last_login,
       userRole: user.userRole
     }
-    this.localStorage.setLocalStorage('currentUser', JSON.stringify(userObj));
+    this.localStorage.setLocalStorage(`${GlobalConfiguration.localStorage.currentUser}`, JSON.stringify(userObj));
   }
 
   getLandingPage(userRole:string){
     let routeName:string = '';
     if(userRole === 'superadmin' || userRole == 'admin'){
-      routeName = '/admin'
+      routeName = '/dashboard'
     }
     else if(userRole === 'manager'){
       routeName = '/manager'

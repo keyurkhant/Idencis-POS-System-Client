@@ -6,23 +6,20 @@ import { AuthenticationService } from '../services/authentication.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class LoggedInGuard implements CanActivate {
+  isAuthenticated: any;
 
-  isAuthenticated:any;
-
-  constructor(private authenticationService: AuthenticationService, private router: Router) {}
-
+  constructor(private authenticationService: AuthenticationService, private router: Router) { }
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    this.authenticationService.currentUser.subscribe((data)=>{
+    this.authenticationService.currentUser.subscribe((data) => {
       this.isAuthenticated = data;
     });
-    if(this.isAuthenticated){      
-      return true;
+    if (this.isAuthenticated) {
+      this.router.navigate(['dashboard']);
+      return false;
     }
-    this.router.navigate(['']);
-    return false;
+    return true;
   }
-  
 }

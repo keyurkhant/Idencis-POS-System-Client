@@ -34,7 +34,7 @@
               "projects/superadmin/src/assets"
             ],
             "styles": [
-              "projects/superadmin/src/styles.scss",
+              "projects/shared-lib/src/assets/css/styles.scss",
               "projects/superadmin/src/assets/scss/superadmin.scss"
             ],
             "scripts": [
@@ -141,7 +141,7 @@
               "projects/manager/src/assets"
             ],
             "styles": [
-              "projects/manager/src/styles.scss",
+              "projects/shared-lib/src/assets/css/styles.scss",
               "projects/manager/src/assets/scss/manager.scss"
             ],
             "scripts": [
@@ -248,10 +248,12 @@
               "projects/customer/src/assets"
             ],
             "styles": [
-              "projects/customer/src/styles.scss",
+              "projects/shared-lib/src/assets/css/styles.scss",
               "projects/customer/src/assets/scss/customer.scss"
             ],
             "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",              
               "node_modules/chart.js/dist/Chart.min.js",
               "node_modules/clipboard/dist/clipboard.min.js"
             ]
