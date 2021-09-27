@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService } from 'projects/shared-lib/services/authentication.service';
+import { CommonService } from 'projects/shared-lib/utility/common.service';
 import { CustomValidator } from 'projects/shared-lib/validators/common.validator';
 
 @Component({
@@ -8,14 +10,18 @@ import { CustomValidator } from 'projects/shared-lib/validators/common.validator
   styleUrls: ['./change-password.component.scss']
 })
 export class ChangePasswordComponent implements OnInit {
-  isPasswordAuthenticated: boolean = false;  // Called from service
-  passwordNotMatched:boolean = false;
   @Input() close: any;
   @Input() dismiss: any;
+  @Output() isPasswordChanged = new EventEmitter<boolean>();
 
   changePasswordForm!: FormGroup;
+  serverError:any;
+  serverMessage:any;
+  isServerError:boolean = false;  
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+    private commonService : CommonService,
+    private authenticationService : AuthenticationService) { }
 
   ngOnInit(): void {
     this.setChangePasswordForm();
@@ -30,13 +36,23 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   changePassword(){
-    if(this.isPasswordAuthenticated){
-      // Set new password using API-Service call
-      console.log("Password updated successfully");    
-    }
-    else{   
-      this.passwordNotMatched = true;   
-    }
-  }
+    this.changePasswordForm.markAllAsTouched();
+    if(this.changePasswordForm.invalid){
+      return;
+    }    
+    let token = this.commonService.getCurrentUser().token;
+    this.authenticationService.changePassoword(this.changePasswordForm.value, token).subscribe({
+      next: (data:any)=>{        
+        this.serverMessage = data.message;      
+        if(data.code = 200){        
+          this.isPasswordChanged.emit(true);
+        }
+      },
+      error :(error:any)=>{
+        this.isServerError = true;
+        this.serverError = error.error.message;
+      }
+    });
+  }  
 
 }

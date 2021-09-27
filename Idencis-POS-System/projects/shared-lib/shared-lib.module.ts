@@ -10,6 +10,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { AllUsersComponent } from './components/all-users/all-users.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     SidebarComponent,
     NavbarComponent,
     FooterComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    AllUsersComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     SidebarComponent,
     NavbarComponent,
     FooterComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    AllUsersComponent
   ]
 })
 export class SharedLibModule { }

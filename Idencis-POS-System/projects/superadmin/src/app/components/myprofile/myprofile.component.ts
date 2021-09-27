@@ -1,8 +1,9 @@
 import { APP_BOOTSTRAP_LISTENER, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ChangePasswordComponent } from 'projects/shared-lib/components/change-password/change-password.component';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'projects/shared-lib/interfaces/User';
+import { AuthenticationService } from 'projects/shared-lib/services/authentication.service';
+import { CommonService } from 'projects/shared-lib/utility/common.service';
 import { CustomValidator } from 'projects/shared-lib/validators/common.validator';
 
 @Component({
@@ -15,20 +16,17 @@ export class MyprofileComponent implements OnInit {
   profileForm!: FormGroup;
   isDisabled: boolean = true;
   isEditMode: boolean = false;
-  userData: User | undefined = {
-    "username": "keyur",
-    "email": "kp@gmail.com",
-    "first_name": "keyur",
-    "last_name" : "khant",
-    "phone" : "9016243435",
-    "userRole" : "admin",
-    "gender" : "Male",
-    "last_login" : "12 November 2021 12:00 AM"
-  };
+  userData: User | undefined;
+  isPasswordChanged:boolean = false;
+  changePasswordModalRef:NgbModalRef | undefined;
 
-  constructor(private formBuilder: FormBuilder, private modalService: NgbModal) { }
+  constructor(private formBuilder: FormBuilder, 
+    private modalService: NgbModal,
+    private authenticationService : AuthenticationService,
+    private commonService : CommonService) { }
 
   ngOnInit(): void {
+    this.userData =  this.commonService.getCurrentUser();    
     this.setProfileForm(this.userData);
   }
 
@@ -71,10 +69,6 @@ export class MyprofileComponent implements OnInit {
     });
   }
 
-  getUserData(){
-
-  }
-
   changeMode(event:any){
     if(this.isEditMode){
       this.saveDetails();
@@ -110,6 +104,13 @@ export class MyprofileComponent implements OnInit {
   }
 
   openChangePassword(changePasswordModal:any){
-    this.modalService.open(changePasswordModal, {centered: true});
+    this.changePasswordModalRef = this.modalService.open(changePasswordModal, {centered: true});       
+  }
+
+  passwordChanged(data:any){
+    this.isPasswordChanged = data; 
+    if(this.isPasswordChanged){
+      this.changePasswordModalRef?.close();      
+    }
   }
 } 

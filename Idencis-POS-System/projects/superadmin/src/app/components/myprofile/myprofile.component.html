@@ -158,7 +158,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="">Last login date & time</label>
-                                            <h5 class="display-5">{{userData?.last_login}}</h5>
+                                            <h5 class="display-5">{{userData?.last_login | date : 'MMMM d, y, hh:mm:ss a'}}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -183,5 +183,5 @@
 </div>
 
 <ng-template #changePasswordModal let-modal let-c="close" let-d="dismiss">
-    <app-change-password [close]="c" [dismiss]="d" ></app-change-password>
+    <app-change-password [close]="c" [dismiss]="d" (isPasswordChanged)="passwordChanged($event)"></app-change-password>
 </ng-template>
