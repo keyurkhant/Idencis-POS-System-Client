@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AddEditUserComponent } from 'projects/shared-lib/components/all-users/add-edit-user/add-edit-user.component';
 import { AllUsersComponent } from 'projects/shared-lib/components/all-users/all-users.component';
 import { LoginComponent } from 'projects/shared-lib/components/login/login.component';
 import { AuthGuard } from 'projects/shared-lib/guards/auth.guard';
@@ -28,9 +29,24 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'users',
-    component: AllUsersComponent,
-    canActivate : [AuthGuard]
+    path: 'users',    
+    canActivate : [AuthGuard],
+    children:[
+      {
+        path : '',
+        component : AllUsersComponent
+      },
+      {
+        path : 'add-user',
+        component : AddEditUserComponent,
+        canActivate : [AuthGuard]
+      },      
+      {
+        path: 'user-details/:username',
+        component : AddEditUserComponent,
+        canActivate : [AuthGuard]
+      }
+    ]
   }
 ];
 

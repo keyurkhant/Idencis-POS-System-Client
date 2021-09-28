@@ -1,3 +1,25 @@
+// Scroll bar style
+::-webkit-scrollbar {
+    width: 8px;
+    height: 6px;
+    border: 1px solid #d5d5d5;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 // Hide spinner arrow from input[type=number]
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

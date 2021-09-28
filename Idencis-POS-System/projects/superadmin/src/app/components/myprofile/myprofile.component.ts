@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'projects/shared-lib/interfaces/User';
 import { AuthenticationService } from 'projects/shared-lib/services/authentication.service';
+import { UserService } from 'projects/shared-lib/services/user.service';
 import { CommonService } from 'projects/shared-lib/utility/common.service';
 import { CustomValidator } from 'projects/shared-lib/validators/common.validator';
 
@@ -19,10 +20,13 @@ export class MyprofileComponent implements OnInit {
   userData: User | undefined;
   isPasswordChanged:boolean = false;
   changePasswordModalRef:NgbModalRef | undefined;
+  isServerError:boolean = false;
+  serverError:any;
 
   constructor(private formBuilder: FormBuilder, 
     private modalService: NgbModal,
     private authenticationService : AuthenticationService,
+    private userService : UserService,
     private commonService : CommonService) { }
 
   ngOnInit(): void {
@@ -58,8 +62,8 @@ export class MyprofileComponent implements OnInit {
     this.profileForm = this.formBuilder.group({
       username: [{value: userData?.username, disabled: this.isDisabled}, Validators.required],
       email: [{value: userData?.email, disabled: this.isDisabled}, Validators.compose([Validators.required, CustomValidator.EmailValidator])],
-      firstname: [{value: userData?.first_name, disabled: this.isDisabled}, Validators.required],
-      lastname: [{value: userData?.last_name, disabled: this.isDisabled}, Validators.required],
+      first_name: [{value: userData?.first_name, disabled: this.isDisabled}, Validators.required],
+      last_name: [{value: userData?.last_name, disabled: this.isDisabled}, Validators.required],
       phone: [{value: userData?.phone, disabled: this.isDisabled}, Validators.compose([Validators.required, CustomValidator.PhoneNumberValidator])],
       gender: [{value: userData?.gender, disabled: this.isDisabled}, Validators.required],
       customer: [{value: isCustomer, disabled: this.isDisabled}, Validators.required],
@@ -80,16 +84,30 @@ export class MyprofileComponent implements OnInit {
     }
   }
 
-  saveDetails(){
-    this.isEditMode = false;   
-    this.disableProfileForm();
+  saveDetails(){        
+    this.profileForm.markAllAsTouched();
+    if(this.profileForm.invalid){            
+      return;
+    }    
+    let token = this.commonService.getCurrentUser().token;
+    this.userService.updateUserDetails(this.profileForm.value, token).subscribe({
+      next: (data:any) =>{
+        console.log("User data updated successfully!");        
+        this.isEditMode = false;   
+        this.disableProfileForm();
+      },
+      error: (error:any)=>{
+        this.isServerError = true;
+        this.serverError = error.error.message;
+      }
+    });    
   }
 
   enableProfileForm(){
     this.profileForm.controls['username'].enable();
     this.profileForm.controls['email'].enable();
-    this.profileForm.controls['firstname'].enable();
-    this.profileForm.controls['lastname'].enable();
+    this.profileForm.controls['first_name'].enable();
+    this.profileForm.controls['last_name'].enable();
     this.profileForm.controls['gender'].enable();
     this.profileForm.controls['phone'].enable();
   }
@@ -97,8 +115,8 @@ export class MyprofileComponent implements OnInit {
   disableProfileForm(){
     this.profileForm.controls['username'].disable();
     this.profileForm.controls['email'].disable();
-    this.profileForm.controls['firstname'].disable();
-    this.profileForm.controls['lastname'].disable();
+    this.profileForm.controls['first_name'].disable();
+    this.profileForm.controls['last_name'].disable();
     this.profileForm.controls['gender'].disable();
     this.profileForm.controls['phone'].disable();
   }

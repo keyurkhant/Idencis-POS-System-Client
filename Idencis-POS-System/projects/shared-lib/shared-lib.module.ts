@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { AllUsersComponent } from './components/all-users/all-users.component';
+import { AddEditUserComponent } from './components/all-users/add-edit-user/add-edit-user.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AllUsersComponent } from './components/all-users/all-users.component';
     NavbarComponent,
     FooterComponent,
     ChangePasswordComponent,
-    AllUsersComponent
+    AllUsersComponent,
+    AddEditUserComponent
   ],
   imports: [
     CommonModule,

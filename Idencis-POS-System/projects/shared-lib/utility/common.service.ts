@@ -11,6 +11,7 @@ export class CommonService {
 
   getCurrentUser(): any{
     const currentUser = JSON.parse(this.localStorage.getLocalStorage(`${GlobalConfiguration.localStorage.currentUser}`));
+    currentUser['phone'] = parseInt(currentUser['phone']);
     return currentUser;
   }
 }

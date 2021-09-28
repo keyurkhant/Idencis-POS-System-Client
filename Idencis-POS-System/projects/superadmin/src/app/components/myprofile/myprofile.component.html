@@ -11,7 +11,8 @@
                         You can manage your personal details here.</p>
                     <button type="button" class="btn btn-default" (click)="changeMode($event)">
                         {{isEditMode?"Save profile":"Edit profile"}}</button>
-                    <button type="button" class="btn btn-primary" (click)="openChangePassword(changePasswordModal)">Change
+                    <button type="button" class="btn btn-primary"
+                        (click)="openChangePassword(changePasswordModal)">Change
                         password</button>
                 </div>
             </div>
@@ -34,6 +35,9 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <span class="form-error" *ngIf="isServerError">
+                            {{serverError}}
+                        </span>
                         <form [formGroup]='profileForm' role='form'>
                             <h6 class="heading-small text-muted mb-4">User information</h6>
                             <div class="pl-lg-4">
@@ -70,24 +74,24 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="firstname">First Name</label>
-                                            <input formControlName="firstname" type="text" id="firstname"
+                                            <label class="form-control-label" for="first_name">First Name</label>
+                                            <input formControlName="first_name" type="text" id="first_name"
                                                 class="form-control form-control-alternative" placeholder="First name"
-                                                [ngClass]="profileForm.controls.firstname.invalid && (profileForm.controls.firstname.dirty || profileForm.controls.firstname.touched) ? 'is-invalid':'is-valid'">
+                                                [ngClass]="profileForm.controls.first_name.invalid && (profileForm.controls.first_name.dirty || profileForm.controls.first_name.touched) ? 'is-invalid':'is-valid'">
                                             <span class="form-error"
-                                                *ngIf="(profileForm.controls.firstname.invalid && (profileForm.controls.firstname.dirty || profileForm.controls.firstname.touched)) && profileForm.controls.firstname.hasError('required')">
+                                                *ngIf="(profileForm.controls.first_name.invalid && (profileForm.controls.first_name.dirty || profileForm.controls.first_name.touched)) && profileForm.controls.first_name.hasError('required')">
                                                 First name is required.
                                             </span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="lastname">Last name</label>
-                                            <input formControlName="lastname" type="text" id="lastname"
+                                            <label class="form-control-label" for="last_name">Last name</label>
+                                            <input formControlName="last_name" type="text" id="last_name"
                                                 class="form-control form-control-alternative" placeholder="Last name"
-                                                [ngClass]="profileForm.controls.lastname.invalid && (profileForm.controls.lastname.dirty || profileForm.controls.lastnametouched) ? 'is-invalid':'is-valid'">
+                                                [ngClass]="profileForm.controls.last_name.invalid && (profileForm.controls.last_name.dirty || profileForm.controls.last_nametouched) ? 'is-invalid':'is-valid'">
                                             <span class="form-error"
-                                                *ngIf="(profileForm.controls.lastname.invalid && (profileForm.controls.lastname.dirty || profileForm.controls.lastname.touched)) && profileForm.controls.lastname.hasError('required')">
+                                                *ngIf="(profileForm.controls.last_name.invalid && (profileForm.controls.last_name.dirty || profileForm.controls.last_name.touched)) && profileForm.controls.last_name.hasError('required')">
                                                 Last name is required.
                                             </span>
                                         </div>
@@ -158,13 +162,14 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="">Last login date & time</label>
-                                            <h5 class="display-5">{{userData?.last_login | date : 'MMMM d, y, hh:mm:ss a'}}</h5>
+                                            <h5 class="display-5">{{userData?.last_login | date : 'MMMM d, y, hh:mm:ss
+                                                a'}}</h5>
                                         </div>
                                     </div>
                                 </div>
                                 <small><i class="pb-3">For permission related changes, contact to your superior
                                         administration user.</i></small>
-                            </div>                            
+                            </div>
                             <ng-container *ngIf="isEditMode && !superAdminFlag">
                                 <hr class="my-4" />
                                 <h6 class="heading-small text-muted mb-4">Delete Account</h6>
