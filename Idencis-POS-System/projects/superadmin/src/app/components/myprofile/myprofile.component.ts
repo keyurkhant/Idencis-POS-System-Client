@@ -90,7 +90,7 @@ export class MyprofileComponent implements OnInit {
       return;
     }    
     let token = this.commonService.getCurrentUser().token;
-    this.userService.updateUserDetails(this.profileForm.value, token).subscribe({
+    this.userService.updateUserProfileDetails(this.profileForm.value, token).subscribe({
       next: (data:any) =>{
         console.log("User data updated successfully!");        
         this.isEditMode = false;   

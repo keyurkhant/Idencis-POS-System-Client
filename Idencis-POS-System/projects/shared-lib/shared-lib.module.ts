@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { AllUsersComponent } from './components/all-users/all-users.component';
 import { AddEditUserComponent } from './components/all-users/add-edit-user/add-edit-user.component';
+import { SearchByKeywordPipe } from './pipes/search-by-keyword.pipe';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { AddEditUserComponent } from './components/all-users/add-edit-user/add-e
     FooterComponent,
     ChangePasswordComponent,
     AllUsersComponent,
-    AddEditUserComponent
+    AddEditUserComponent,
+    SearchByKeywordPipe
   ],
   imports: [
     CommonModule,

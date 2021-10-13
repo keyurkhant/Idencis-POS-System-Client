@@ -10,7 +10,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">Total User(s)</h5>
-                                        <span class="h2 font-weight-bold mb-0">32</span>
+                                        <span class="h2 font-weight-bold mb-0">{{totalUsers}}</span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -27,7 +27,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">Admin(s)</h5>
-                                        <span class="h2 font-weight-bold mb-0">4</span>
+                                        <span class="h2 font-weight-bold mb-0">{{adminUsers}}</span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -44,7 +44,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">Manager(s)</h5>
-                                        <span class="h2 font-weight-bold mb-0">10</span>
+                                        <span class="h2 font-weight-bold mb-0">{{managerUsers}}</span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -61,7 +61,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">Staff(s)</h5>
-                                        <span class="h2 font-weight-bold mb-0">18</span>
+                                        <span class="h2 font-weight-bold mb-0">{{staffUsers}}</span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -88,11 +88,13 @@
 
                         <div class="row">
                             <div class="col-lg-6">
-                                <button [routerLink]="['add-user']" type="button" class="btn btn-default btn-md"><i class="fas fa-plus"></i>
+                                <button [routerLink]="['add-user']" type="button" class="btn btn-default btn-md"><i
+                                        class="fas fa-plus"></i>
                                     User</button>
                             </div>
                             <div class="col-lg-6 d-flex">
                                 <input class="form-control w-80 mr-2" size="40" type="search"
+                                    [(ngModel)] = 'searchKeyword'
                                     placeholder="Type to search..." aria-label="Search">
                                 <div ngbDropdown class="w-20">
                                     <button type="button" class="btn btn-outline-light w-100 btn-md"
@@ -112,68 +114,50 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Username</th>                                    
+                                    <th scope="col">Username</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Restaurant</th>
                                     <th scope="col">Gender</th>
                                     <th scope="col">Role</th>
-                                    <th scope="col">Is Active</th>
-                                    <!-- <th scope="col">Action</th> -->
+                                    <th scope="col">Status</th>                          
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><a [routerLink]="['user-details','bharat1510']" class="font-weight-bold">bharat1510</a></td>
-                                    <td>Bharat Vora</td>
-                                    <td>Coffee Castle</td>
-                                    <td>Male</td>
+                            <tbody>                                
+                                <ng-container *ngIf="allUserData">
+                                    <ng-container *ngFor="let user of allUserData | searchByKeyword : searchKeyword; let i = index">
+                                        <tr>
+                                            <td>{{i + 1}}</td>
+                                            <td><a [routerLink]="['user-details', user.username]"
+                                                    class="font-weight-bold">{{user.username}}</a></td>
+                                            <td>{{user.first_name + ' ' + user.last_name}}</td>
+                                            <td>{{user.restaurants?.name ? user.restaurants?.name : 'N/A'}}</td>
+                                            <td>{{user.gender}}</td>
 
-                                    <td><span class="badge bg-info text-dark">Superadmin</span></td>
-                                    <!-- <td><span class="badge bg-warning text-white">Admin</span></td> -->
-                                    <!-- <td><span class="badge bg-primary text-white">Manager</span></td> -->
-                                    <!-- <td><span class="badge bg-secondary text-dark">Staff</span></td> -->
+                                            <td *ngIf="user.userRole == 'superadmin'">
+                                                <span class="badge bg-default text-white">Super Admin</span>
+                                            </td>
+                                            <td *ngIf="user.userRole == 'admin'">
+                                                <span class="badge bg-info text-white">Admin</span>
+                                            </td>
+                                            <td *ngIf="user.userRole == 'manager'">
+                                                <span class="badge bg-primary text-white">Manager</span>
+                                            </td>
+                                            <td *ngIf="user.userRole == 'staff'">
+                                                <span class="badge bg-warning text-dark">Staff</span>
+                                            </td>
 
-                                    <td><span class="badge bg-success">Active</span></td>
-                                    <!-- <td><span class="badge bg-danger text-white">Inactive</span></td> -->
-
-
-                                    <!-- <td>
-                                        <button type="button" class="btn btn-outline-info btn-sm"><i
-                                                class="fas fa-eye"></i></button>
-                                        <button type="button" class="btn btn-outline-warning btn-sm"><i
-                                                class="fas fa-edit"></i></button>
-                                        <button type="button" class="btn btn-outline-danger btn-sm"><i
-                                                class="fas fa-trash-alt"></i></button>
-                                    </td> -->
-                                </tr>
-
-                                <tr>
-                                    <td>2</td>
-                                    <td><a href="#" class="font-weight-bold">dhruvi123</a></td>
-                                    <td>Dhruvi Prajapati</td>                                    
-                                    <td>Coffee Culture</td>
-                                    <td>Female</td>
-
-                                    <!-- <td><span class="badge bg-info text-dark">Superadmin</span></td> -->
-                                    <!-- <td><span class="badge bg-warning text-white">Admin</span></td> -->
-                                    <td><span class="badge bg-primary text-white">Manager</span></td>
-                                    <!-- <td><span class="badge bg-secondary text-dark">Staff</span></td> -->
-
-                                    <!-- <td><span class="badge bg-success">Active</span></td> -->
-                                    <td><span class="badge bg-danger text-white">Inactive</span></td>
-
-
-                                    <!-- <td>
-                                        <button type="button" class="btn btn-outline-info btn-sm"><i
-                                                class="fas fa-eye"></i></button>
-                                        <button type="button" class="btn btn-outline-warning btn-sm"><i
-                                                class="fas fa-edit"></i></button>
-                                        <button type="button" class="btn btn-outline-danger btn-sm"><i
-                                                class="fas fa-trash-alt"></i></button>
-                                    </td> -->
-                                </tr>
-
+                                            <td *ngIf="user.is_active">
+                                                <span class="badge bg-success text-white">Active</span>
+                                            </td>
+                                            <td *ngIf="!user.is_active">
+                                                <span class="badge bg-danger text-white">Inactive</span>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container *ngIf="!allUserData">
+                                    <small class="pl-4">No data found.</small>
+                                </ng-container>
                             </tbody>
                         </table>
                     </div>

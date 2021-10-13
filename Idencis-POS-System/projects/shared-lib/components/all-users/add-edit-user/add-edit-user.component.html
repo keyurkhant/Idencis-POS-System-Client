@@ -3,6 +3,16 @@
         <!-- Mask -->
         <span class="mask bg-gradient-danger opacity-8"></span>
         <!-- Header container -->
+        <div class="container-fluid align-items-center" *ngIf="(isViewMode || isEditMode)">
+            <div class="row">
+                <div class="col-lg-7 col-md-10">
+                    <button type="button" class="btn btn-default" (click)="changeMode()">
+                        {{isEditMode?"Save details":"Edit details"}}</button>
+                    <button type="button" class="btn btn-primary">Delete</button>
+                    <button type="button" class="btn btn-primary">Inactive</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="container-fluid mt--7">
         <div class="row">
@@ -11,27 +21,49 @@
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">Add User</h3>
+                                <h3 class="mb-0">{{(isViewMode || isEditMode) ? "User Details - " + username : "Add User"}}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form [formGroup]="userProfileForm" role="form">
                             <h6 class="heading-small text-muted mb-2">User Information</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="username">Username</label>
-                                            <input type="text" id="username"
-                                                class="form-control form-control-alternative" placeholder="Username">
+                                            <input type="text" id="username" formControlName="username"
+                                                class="form-control form-control-alternative" placeholder="Username"
+                                                [ngClass]="userProfileForm.controls.username.invalid && (userProfileForm.controls.username.dirty || userProfileForm.controls.username.touched) || usernameAlreadyExist ? 'is-invalid':'is-valid'">
+                                            <span class="form-error"
+                                                *ngIf="(userProfileForm.controls.username.invalid && (userProfileForm.controls.username.dirty || userProfileForm.controls.username.touched)) && userProfileForm.controls.username.hasError('required')">
+                                                Username is required.
+                                            </span>
+                                            <span class="form-error"
+                                                *ngIf="usernameAlreadyExist">
+                                                Username already exist.
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="email">Email Address</label>
                                             <input type="email" id="email" class="form-control form-control-alternative"
-                                                placeholder="Email address" value="">
+                                                formControlName="email" placeholder="Email address" value=""
+                                                [ngClass]="userProfileForm.controls.email.invalid && (userProfileForm.controls.email.dirty || userProfileForm.controls.email.touched) || emailAlreadyExist ? 'is-invalid':'is-valid'">
+                                            <span class="form-error"
+                                                *ngIf="(userProfileForm.controls.email.invalid && (userProfileForm.controls.email.dirty || userProfileForm.controls.email.touched)) && userProfileForm.controls.email.hasError('required')">
+                                                Email is required.
+                                            </span>
+                                            <span class="form-error"
+                                                *ngIf="emailAlreadyExist">
+                                                Email already exist.
+                                            </span>
+                                            <span class="form-error"
+                                                *ngIf="(userProfileForm.controls.email.invalid && (userProfileForm.controls.email.dirty || userProfileForm.controls.email.touched)) && userProfileForm.controls.email.hasError('emailNotMatch')">
+                                                Valid email is required.
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -40,16 +72,26 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="first_name">First Name</label>
-                                            <input type="text" id="first_name"
-                                                class="form-control form-control-alternative" placeholder="First name">
+                                            <input type="text" id="first_name" formControlName="first_name"
+                                                class="form-control form-control-alternative" placeholder="First name"
+                                                [ngClass]="userProfileForm.controls.first_name.invalid && (userProfileForm.controls.first_name.dirty || userProfileForm.controls.first_name.touched) ? 'is-invalid':'is-valid'">
+                                            <span class="form-error"
+                                                *ngIf="(userProfileForm.controls.first_name.invalid && (userProfileForm.controls.first_name.dirty || userProfileForm.controls.first_name.touched)) && userProfileForm.controls.first_name.hasError('required')">
+                                                First name is required.
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="form-control-label" for="last_name">Last Name</label>
-                                            <input type="text" id="last_name"
+                                            <input type="text" id="last_name" formControlName="last_name"
                                                 class="form-control form-control-alternative" placeholder="Last name"
-                                                value="">
+                                                value=""
+                                                [ngClass]="userProfileForm.controls.last_name.invalid && (userProfileForm.controls.last_name.dirty || userProfileForm.controls.last_name.touched) ? 'is-invalid':'is-valid'">
+                                            <span class="form-error"
+                                                *ngIf="(userProfileForm.controls.last_name.invalid && (userProfileForm.controls.last_name.dirty || userProfileForm.controls.last_name.touched)) && userProfileForm.controls.last_name.hasError('required')">
+                                                Last name is required.
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -58,18 +100,31 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label class="form-control-label" for="phone">Phone Number</label>
-                                            <input type="number" id="phone"
+                                            <input type="number" id="phone" formControlName="phone"
                                                 class="form-control form-control-alternative" placeholder="Phone number"
-                                                value="">
+                                                value=""
+                                                [ngClass]="userProfileForm.controls.phone.invalid && (userProfileForm.controls.phone.dirty || userProfileForm.controls.phone.touched) || phoneAlreadyExist ? 'is-invalid':'is-valid'">
+                                            <span class="form-error"
+                                                *ngIf="(userProfileForm.controls.phone.invalid && (userProfileForm.controls.phone.dirty || userProfileForm.controls.phone.touched)) && userProfileForm.controls.phone.hasError('required')">
+                                                Phone number is required.
+                                            </span>
+                                            <span class="form-error"
+                                                *ngIf="phoneAlreadyExist">
+                                                Phone number already exist.
+                                            </span>
+                                            <span class="form-error"
+                                                *ngIf="(userProfileForm.controls.phone.invalid && (userProfileForm.controls.phone.dirty || userProfileForm.controls.phone.touched)) && userProfileForm.controls.phone.hasError('PhoneNumberNotMatch')">
+                                                Valid phone number is required.
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label class="form-control-label" for="gender">Gender</label>
                                             <select class="form-control form-control-alternative" name="gender"
-                                                id="gender" aria-label="Default select example">
-                                                <option selected>Select Gender</option>
-                                                <option value="Male">Male</option>
+                                                formControlName="gender" id="gender"
+                                                aria-label="Default select example">
+                                                <option value="Male" selected>Male</option>
                                                 <option value="Female">Female</option>
                                                 <option value="Other">Other</option>
                                             </select>
@@ -79,44 +134,54 @@
                                         <div class="form-group">
                                             <label class="form-control-label" for="userRole">User Role</label>
                                             <select class="form-control form-control-alternative" name="userRole"
-                                                id="userRole" aria-label="Default select example">
-                                                <option selected>Select User Role</option>
-                                                <option value="superadmin">Super Admin</option>
-                                                <option value="admin">Admin</option>
-                                                <option value="manager">Manager</option>
+                                                formControlName="userRole" id="userRole"
+                                                aria-label="Default select example" (change)="roleValueChanged()">
+                                                <option value="manager" selected>Manager</option>
                                                 <option value="staff">Staff</option>
+                                                <option value="admin">Admin</option>
+                                                <option value="superadmin">Super Admin</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <hr class="my-4" />
-                            <!-- Address -->
-                            <h6 class="heading-small text-muted mb-2">Restaurant Information</h6>
-                            <div class="pl-lg-4">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="restaurantDataList" class="form-control-label">Select
-                                                Restaurant</label>
-                                            <input class="form-control form-control-alternative" list="datalistOptions" id="restaurantDataList"
-                                                placeholder="Type to search...">
-                                            <datalist id="datalistOptions">
-                                                <option value="San Francisco">
-                                                <option value="New York">
-                                                <option value="Seattle">
-                                                <option value="Los Angeles">
-                                                <option value="Chicago">
-                                            </datalist>
+                            <ng-container
+                                *ngIf="userProfileForm.controls.userRole.value == 'manager' || userProfileForm.controls.userRole.value == 'staff'">
+                                <hr class="my-4" />
+                                <h6 class="heading-small text-muted mb-2">Restaurant Information</h6>
+                                <div class="pl-lg-4">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="restaurantDataList" class="form-control-label">
+                                                    {{(isViewMode || isEditMode) ? "Restaurant" : "Select Restaurant"}}</label>
+                                                <input class="form-control form-control-alternative"
+                                                    list="datalistOptions" formControlName="restaurantName"
+                                                    id="restaurantDataList" placeholder="Type to search..."
+                                                    [ngClass]="userProfileForm.controls.restaurantName.invalid && (userProfileForm.controls.restaurantName.dirty || userProfileForm.controls.restaurantName.touched) ? 'is-invalid':'is-valid'">
+                                                <datalist id="datalistOptions">
+                                                    <option value="San Francisco">
+                                                    <option value="Coffee Castle">
+                                                    <option value="Seattle">
+                                                    <option value="Los Angeles">
+                                                    <option value="Chicago">
+                                                </datalist>
+                                                <span class="form-error"
+                                                    *ngIf="(userProfileForm.controls.restaurantName.invalid && (userProfileForm.controls.restaurantName.dirty || userProfileForm.controls.restaurantName.touched)) && userProfileForm.controls.restaurantName.hasError('required')">
+                                                    Restaurant is required.
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
+                                    <small><i class="pb-3">If can't found restaurant, please register you restaurant
+                                            first
+                                            or contact to administration user.</i></small>
                                 </div>
-                                <small><i class="pb-3">If can't found restaurant, please register you restaurant first
-                                        or contact to administration user.</i></small>
-                            </div>
-                            <div class="mt-5">
-                                <button type="submit" class="btn btn-success btn-md">Add</button>
-                                <button [routerLink]="['/users']" type="button" class="btn btn-danger btn-md">Cancel</button>
+                            </ng-container>
+                            <div class="mt-5" *ngIf="!(isViewMode || isEditMode)">
+                                <button type="submit" class="btn btn-success btn-md" (click)="addUser()">Add</button>
+                                <button [routerLink]="['/users']" type="button"
+                                    class="btn btn-danger btn-md">Cancel</button>
                             </div>
                         </form>
                     </div>

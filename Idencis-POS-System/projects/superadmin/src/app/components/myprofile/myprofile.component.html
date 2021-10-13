@@ -89,7 +89,7 @@
                                             <label class="form-control-label" for="last_name">Last name</label>
                                             <input formControlName="last_name" type="text" id="last_name"
                                                 class="form-control form-control-alternative" placeholder="Last name"
-                                                [ngClass]="profileForm.controls.last_name.invalid && (profileForm.controls.last_name.dirty || profileForm.controls.last_nametouched) ? 'is-invalid':'is-valid'">
+                                                [ngClass]="profileForm.controls.last_name.invalid && (profileForm.controls.last_name.dirty || profileForm.controls.last_name.touched) ? 'is-invalid':'is-valid'">
                                             <span class="form-error"
                                                 *ngIf="(profileForm.controls.last_name.invalid && (profileForm.controls.last_name.dirty || profileForm.controls.last_name.touched)) && profileForm.controls.last_name.hasError('required')">
                                                 Last name is required.
@@ -119,9 +119,8 @@
                                             <label class="form-control-label" for="input-email">Gender</label>
                                             <select formControlName="gender"
                                                 class="form-control form-control-alternative"
-                                                aria-label="Default select example">
-                                                <option selected>Select Gender</option>
-                                                <option value="Male">Male</option>
+                                                aria-label="Default select example">                                                
+                                                <option value="Male" selected>Male</option>
                                                 <option value="Female">Female</option>
                                                 <option value="Other">Other</option>
                                             </select>
